@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { fonts } from '@/config/fonts'
 import { cn } from '@/lib/utils'
 import { showSubmittedData } from '@/utils/show-submitted-data'
+import { useDirection } from '@/context/direction-context'
 import { useFont } from '@/context/font-context'
 import { useTheme } from '@/context/theme-context'
 import { Button, buttonVariants } from '@/components/ui/button'
@@ -27,6 +28,9 @@ const appearanceFormSchema = z.object({
     invalid_type_error: 'Select a font',
     required_error: 'Please select a font.',
   }),
+  direction: z.enum(['ltr', 'rtl'], {
+    required_error: 'Please select a direction.',
+  }),
 })
 
 type AppearanceFormValues = z.infer<typeof appearanceFormSchema>
@@ -34,11 +38,13 @@ type AppearanceFormValues = z.infer<typeof appearanceFormSchema>
 export function AppearanceForm() {
   const { font, setFont } = useFont()
   const { theme, setTheme } = useTheme()
+  const { direction, setDirection } = useDirection()
 
   // This can come from your database or API.
   const defaultValues: Partial<AppearanceFormValues> = {
     theme: theme as 'light' | 'dark',
     font,
+    direction,
   }
 
   const form = useForm<AppearanceFormValues>({
@@ -49,6 +55,7 @@ export function AppearanceForm() {
   function onSubmit(data: AppearanceFormValues) {
     if (data.font != font) setFont(data.font)
     if (data.theme != theme) setTheme(data.theme)
+    if (data.direction != direction) setDirection(data.direction)
 
     showSubmittedData(data)
   }
@@ -151,6 +158,66 @@ export function AppearanceForm() {
                     </div>
                     <span className='block w-full p-2 text-center font-normal'>
                       Dark
+                    </span>
+                  </FormLabel>
+                </FormItem>
+              </RadioGroup>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name='direction'
+          render={({ field }) => (
+            <FormItem className='space-y-1'>
+              <FormLabel>Text Direction</FormLabel>
+              <FormDescription>
+                Select the text direction for the dashboard.
+              </FormDescription>
+              <FormMessage />
+              <RadioGroup
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                className='grid max-w-md grid-cols-2 gap-8 pt-2'
+              >
+                <FormItem>
+                  <FormLabel className='[&:has([data-state=checked])>div]:border-primary'>
+                    <FormControl>
+                      <RadioGroupItem value='ltr' className='sr-only' />
+                    </FormControl>
+                    <div className='border-muted hover:border-accent items-center rounded-md border-2 p-1'>
+                      <div className='space-y-2 rounded-sm bg-[#ecedef] p-2'>
+                        <div className='flex justify-start'>
+                          <div className='h-2 w-[80px] rounded-lg bg-[#ecedef]' />
+                        </div>
+                        <div className='flex justify-start'>
+                          <div className='h-2 w-[100px] rounded-lg bg-[#ecedef]' />
+                        </div>
+                      </div>
+                    </div>
+                    <span className='block w-full p-2 text-center font-normal'>
+                      Left-to-Right (LTR)
+                    </span>
+                  </FormLabel>
+                </FormItem>
+                <FormItem>
+                  <FormLabel className='[&:has([data-state=checked])>div]:border-primary'>
+                    <FormControl>
+                      <RadioGroupItem value='rtl' className='sr-only' />
+                    </FormControl>
+                    <div className='border-muted hover:border-accent items-center rounded-md border-2 p-1'>
+                      <div className='space-y-2 rounded-sm bg-[#ecedef] p-2'>
+                        <div className='flex justify-end'>
+                          <div className='h-2 w-[80px] rounded-lg bg-[#ecedef]' />
+                        </div>
+                        <div className='flex justify-end'>
+                          <div className='h-2 w-[100px] rounded-lg bg-[#ecedef]' />
+                        </div>
+                      </div>
+                    </div>
+                    <span className='block w-full p-2 text-center font-normal'>
+                      Right-to-Left (RTL)
                     </span>
                   </FormLabel>
                 </FormItem>

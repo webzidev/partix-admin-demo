@@ -19,8 +19,9 @@ import {
   IconUserOff,
   IconUsers,
 } from '@tabler/icons-react'
-import { AudioWaveform, Command, GalleryVerticalEnd } from 'lucide-react'
+import { AudioWaveform, GalleryVerticalEnd } from 'lucide-react'
 import { type SidebarData } from '../types'
+import { PartixLogo } from '../partix-logo'
 
 export const sidebarData: SidebarData = {
   user: {
@@ -30,9 +31,9 @@ export const sidebarData: SidebarData = {
   },
   teams: [
     {
-      name: 'Shadcn Admin',
-      logo: Command,
-      plan: 'Vite + ShadcnUI',
+      name: 'Partix.ai',
+      logo: PartixLogo,
+      plan: 'AI Platform',
     },
     {
       name: 'Acme Inc',
