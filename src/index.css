@@ -123,6 +123,19 @@
   [role='button']:not(:disabled) {
     cursor: pointer;
   }
+  
+  /* RTL Support */
+  html[dir="rtl"] [data-sidebar] {
+    @apply right-0 left-auto;
+  }
+  
+  html[dir="rtl"] .right-3 {
+    @apply right-auto left-3;
+  }
+  
+  html[dir="rtl"] .ml-auto {
+    @apply ml-0 mr-auto;
+  }
 
   /* Prevent focus zoom on mobile devices */
   @media screen and (max-width: 767px) {
