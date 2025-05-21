@@ -1,6 +1,3 @@
-import React from 'react'
-import { useTheme } from '@/context/theme-context'
-
 interface PartixLogoProps {
   className?: string
 }

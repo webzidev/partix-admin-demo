@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import { Link, useLocation } from '@tanstack/react-router'
-import { ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import {
   Collapsible,
   CollapsibleContent,
@@ -27,6 +27,7 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
 import { NavCollapsible, NavItem, NavLink, type NavGroup } from './types'
+import { useDirection } from '@/context/direction-context'
 
 export function NavGroup({ title, items }: NavGroup) {
   const { state } = useSidebar()
@@ -84,6 +85,9 @@ const SidebarMenuCollapsible = ({
   href: string
 }) => {
   const { setOpenMobile } = useSidebar()
+  const { direction } = useDirection()
+  const ChevronIcon = direction === 'rtl' ? ChevronLeft : ChevronRight
+  
   return (
     <Collapsible
       asChild
@@ -96,7 +100,7 @@ const SidebarMenuCollapsible = ({
             {item.icon && <item.icon />}
             <span>{item.title}</span>
             {item.badge && <NavBadge>{item.badge}</NavBadge>}
-            <ChevronRight className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
+            <ChevronIcon className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
           </SidebarMenuButton>
         </CollapsibleTrigger>
         <CollapsibleContent className='CollapsibleContent'>
@@ -129,6 +133,9 @@ const SidebarMenuCollapsedDropdown = ({
   item: NavCollapsible
   href: string
 }) => {
+  const { direction } = useDirection()
+  const ChevronIcon = direction === 'rtl' ? ChevronLeft : ChevronRight
+  
   return (
     <SidebarMenuItem>
       <DropdownMenu>
@@ -140,10 +147,10 @@ const SidebarMenuCollapsedDropdown = ({
             {item.icon && <item.icon />}
             <span>{item.title}</span>
             {item.badge && <NavBadge>{item.badge}</NavBadge>}
-            <ChevronRight className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
+            <ChevronIcon className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
           </SidebarMenuButton>
         </DropdownMenuTrigger>
-        <DropdownMenuContent side='right' align='start' sideOffset={4}>
+        <DropdownMenuContent side={direction === 'rtl' ? 'left' : 'right'} align='start' sideOffset={4}>
           <DropdownMenuLabel>
             {item.title} {item.badge ? `(${item.badge})` : ''}
           </DropdownMenuLabel>

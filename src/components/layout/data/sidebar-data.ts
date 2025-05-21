@@ -19,7 +19,7 @@ import {
   IconUserOff,
   IconUsers,
 } from '@tabler/icons-react'
-import { AudioWaveform, Command, GalleryVerticalEnd } from 'lucide-react'
+import { AudioWaveform, GalleryVerticalEnd } from 'lucide-react'
 import { type SidebarData } from '../types'
 import { PartixLogo } from '../partix-logo'
 
